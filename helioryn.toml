@@ -1,0 +1,169 @@
+# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Helioryn Compliance — Grant compliance intelligence configuration
+# Data sources: US government APIs only (no web search)
+
+[database]
+url = "postgresql:///helioryn_dev?host=/tmp"
+
+[cache]
+url = "redis://localhost:6379/0"
+
+[auth]
+api_key = "hc-compliance-key"
+admin_password = "admin"
+session_secret = "hc-compliance-secret"
+
+[llm]
+provider = "ollama"
+model = "qwen2.5:14b"
+max_tokens = 4096
+temperature = 0.1
+
+[opencode]
+base_url = "https://api.opencode.ai/v1"
+# api_key = ""  # auto-reads from ~/.local/share/opencode/auth.json
+
+[ollama]
+model = "qwen2.5:14b"
+base_url = "http://localhost:11434"
+max_tokens = 4096
+temperature = 0.1
+
+[ingest]
+fetch_delay = 0.3
+auto_generate_queries = false
+
+[ingest.ingestor]
+type = "postgres"
+
+# ── Primary API Sources ──────────────────────────────────────────
+
+[[ingest.api_sources]]
+type = "grants_gov"
+name = "grants.gov"
+enabled = true
+topic = "grant-opportunities"
+interval_minutes = 1440
+
+[[ingest.api_sources]]
+type = "federal_register"
+name = "Federal Register"
+enabled = true
+topic = "federal-register"
+interval_minutes = 120
+days_back = 3
+
+[[ingest.api_sources]]
+type = "usa_spending"
+name = "USAspending"
+enabled = true
+topic = "grant-opportunities"
+interval_minutes = 1440
+days_back = 30
+agency_code = ""
+state = ""
+
+[[ingest.api_sources]]
+type = "sam_assistance"
+name = "SAM Assistance Listings"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 10080
+credential_service = "sam_gov"
+
+[[ingest.api_sources]]
+type = "sam_opportunities"
+name = "SAM Opportunities"
+enabled = true
+topic = "grant-opportunities"
+interval_minutes = 1440
+days_back = 7
+credential_service = "sam_gov"
+
+[[ingest.api_sources]]
+type = "sam_contracts"
+name = "SAM Contracts"
+enabled = true
+topic = "tribal-funding"
+interval_minutes = 1440
+days_back = 30
+credential_service = "sam_gov"
+
+[[ingest.api_sources]]
+type = "regulations_gov"
+name = "Regulations.gov"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 360
+days_back = 7
+credential_service = "data_gov"
+
+[[ingest.api_sources]]
+type = "govinfo"
+name = "GovInfo.gov"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 1440
+days_back = 14
+credential_service = "data_gov"
+
+[[ingest.api_sources]]
+type = "congress"
+name = "Congress.gov"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 1440
+credential_service = "data_gov"
+
+[[ingest.api_sources]]
+type = "per_diem"
+name = "GSA Per Diem"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 10080
+credential_service = "data_gov"
+
+[[ingest.api_sources]]
+type = "crime_solutions"
+name = "CrimeSolutions.gov"
+enabled = true
+topic = "doj-grants"
+interval_minutes = 10080
+
+[[ingest.api_sources]]
+type = "epa_echo"
+name = "EPA ECHO"
+enabled = true
+topic = "grant-regulations"
+interval_minutes = 10080
+state = "AK"
+
+[[ingest.api_sources]]
+type = "fedreg"
+name = "Federal Register — OVC/Tribal"
+enabled = true
+topic = "ovc"
+interval_minutes = 1440
+days_back = 365
+
+[[ingest.api_sources]]
+type = "oig_reports"
+name = "DOJ OIG Reports"
+enabled = true
+topic = "ovc"
+interval_minutes = 10080
+download_dir = "demo-data/oig-reports"
+report_urls = [
+    { url = "https://oig.justice.gov/sites/default/files/reports/25-047.pdf", title = "Safe Horizon NYC — OVC Grant Audit (2025)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/26-054.pdf", title = "Crisis Intervention Iowa — VOCA Grant Audit (2026)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/24-030.pdf", title = "UM PGHC Maryland — OVC Grant Audit (2024)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/20-100.pdf", title = "Virginia DCJS — VOCA Grant Management Audit (2020)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/23-109.pdf", title = "J Bar J Oregon — Human Trafficking CSEC Audit (2023)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/25-033.pdf", title = "OVC VOCA Performance Progress Report Audit (2025)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/24-055.pdf", title = "DOJ Grants Financial Guide Compliance Audit (2024)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/22-047.pdf", title = "OVC Grantee Monitoring and Oversight Audit (2022)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/21-069.pdf", title = "VOCA Grant Administrative Costs Audit (2021)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/25-077.pdf", title = "OVC Victim Compensation Program Grants Audit (2025)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/23-088.pdf", title = "VOCA Subrecipient Monitoring Audit (2023)" },
+    { url = "https://oig.justice.gov/sites/default/files/reports/24-116.pdf", title = "DOJ Grant Closeout Process Audit (2024)" },
+]

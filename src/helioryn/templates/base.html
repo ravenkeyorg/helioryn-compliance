@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Helioryn Compliance{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/archive.css">
+  <link rel="stylesheet" href="/static/css/chat.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    corePlugins: { preflight: false },
+    theme: {
+      extend: {
+        colors: {
+          gray: {
+            50: '#e8edf5', 100: '#c5d0e8', 200: '#a3b6db',
+            300: '#8da3d4', 400: '#6b85b8',
+            500: '#4a6da8', 600: '#2d4a82',
+            700: '#1e3766', 800: '#0f1f44',
+            900: '#08142d', 950: '#020817',
+          },
+          page: '#020817', surface: '#08142d', card: '#0f1f44',
+          border: '#1e3570',
+          accent: '#4f8cff', 'accent-hover': '#275dff',
+          gold: '#f3b46b', violet: '#6e5cff',
+        },
+        fontFamily: {
+          heading: ['Playfair Display', 'Georgia', 'serif'],
+          body: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        },
+      }
+    }
+  }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>H</text></svg>">
+  <style>
+    [x-cloak] { display: none !important; }
+    .card { @apply bg-card border border-border rounded-lg p-4; }
+    .stat { @apply text-2xl font-bold text-accent; }
+    .label { @apply text-xs uppercase tracking-wider text-text-muted; }
+    .btn { @apply px-4 py-2 rounded-lg font-medium text-sm transition-colors; }
+    .btn-primary { @apply btn bg-accent hover:bg-accent-hover text-white; }
+    .btn-ghost { @apply btn text-text-muted hover:text-text-primary hover:bg-card-hover; }
+    .btn-sm { @apply px-3 py-1.5 text-xs; }
+    a { @apply text-accent hover:text-accent-hover transition-colors; }
+
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.2rem;
+      background: #0f1f44;
+      border: 1px solid #1e3570;
+      border-radius: 999px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .mode-toggle:hover { border-color: #4f8cff; }
+    .mode-toggle .mode-label {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      transition: all 0.2s;
+      color: #6b85b8;
+      white-space: nowrap;
+    }
+    .mode-toggle .mode-label.active {
+      background: #4f8cff;
+      color: white;
+    }
+  </style>
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="font-body text-text-primary bg-page">
+
+  <nav class="topnav" x-data="{ chatMode: window.currentChatMode || 'public' }"
+       x-init="
+          $watch('chatMode', val => {
+            window.currentChatMode = val;
+            sessionStorage.setItem('helioryn-mode', val);
+          });
+          const saved = sessionStorage.getItem('helioryn-mode');
+          if (saved) { chatMode = saved; window.currentChatMode = saved; }
+       ">
+    <a href="/chat" class="topnav-logo">⟐ Helioryn</a>
+
+    <div class="mode-toggle mx-2" @click="chatMode = (chatMode === 'public' ? 'org' : 'public')"
+         :title="chatMode === 'public' ? 'Showing public government data' : 'Showing organizational documents'">
+      <span class="mode-label" :class="{ 'active': chatMode === 'public' }">Public</span>
+      <span class="mode-label" :class="{ 'active': chatMode === 'org' }">Org</span>
+    </div>
+
+    <div class="topnav-actions" style="margin-left:auto;">
+      {% if user %}
+      {% if is_admin %}
+      <a href="/admin" class="btn-ghost">Admin</a>
+      {% endif %}
+      <span class="topnav-username" x-data x-text="window.heliorynUser?.username || '{{ user.username }}'"></span>
+      <a href="/logout" class="btn-ghost">Logout</a>
+      {% else %}
+      <a href="/signup" class="btn-ghost">Sign Up</a>
+      <a href="/login" class="btn btn-sm">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="page fade-in pt-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

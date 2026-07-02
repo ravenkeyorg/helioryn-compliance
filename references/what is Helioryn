@@ -1,0 +1,101 @@
+Helioryn — Executive Summary
+
+Helioryn is a continuous intelligence platform designed to track, organize, validate, and reason about human knowledge as it changes over time.
+
+Unlike search engines that find documents or AI chatbots that generate answers, Helioryn builds a living evidence network from thousands of sources and continuously updates its understanding as new information appears.
+
+Core Idea
+
+Most systems answer:
+
+"What information can I find?"
+
+Helioryn answers:
+
+"What does the evidence currently indicate, how confident should we be, and what changed?"
+
+How It Works
+
+Helioryn continuously ingests information from:
+
+News sources
+Academic research
+Government publications
+Technical documentation
+Public datasets
+Industry reports
+Social and community sources
+User-provided knowledge
+
+The platform extracts atomic claims from those sources and stores:
+
+The claim itself
+Supporting evidence
+Contradicting evidence
+Source provenance
+Confidence levels
+Historical changes over time
+
+Rather than storing "truth," Helioryn stores evidence relationships.
+
+Key Innovation
+
+Most AI systems are answer engines.
+
+Helioryn is an intelligence infrastructure.
+
+It creates a continuously evolving graph of:
+
+Claims
+Evidence
+Sources
+Concepts
+Events
+Entities
+Relationships
+
+allowing users to explore not only conclusions but also the reasoning path behind them.
+
+What Users Can Do
+
+Ask questions such as:
+
+What does current evidence suggest?
+What changed this week?
+Which claims are becoming stronger?
+Which claims are disputed?
+What evidence supports this conclusion?
+What are experts missing?
+What emerging trends are appearing?
+
+The system can continuously monitor topics and notify users when meaningful evidence changes occur.
+
+Long-Term Vision
+
+Helioryn aims to become a planetary knowledge infrastructure:
+
+Continuously monitoring information worldwide
+Tracking knowledge evolution in real time
+Preserving provenance and transparency
+Reducing information silos
+Making evidence discoverable and explainable
+Potential Markets
+Research organizations
+Libraries and archives
+Governments
+Tribal and cultural preservation projects
+Intelligence and analysis teams
+Journalists
+Think tanks
+Enterprises
+Healthcare research
+Legal research
+Education
+Financial analysis
+Why It Matters
+
+Today's internet is optimized for finding documents.
+
+Tomorrow's intelligence systems will be optimized for understanding evidence.
+
+Helioryn's goal is to become the infrastructure layer that continuously transforms information into traceable, explainable, and evolving knowledge. It is not a search engine, a chatbot, or a database—it is a living evidence network that helps humans and AI understand what is known, why it is believed, and how that understanding changes over time.

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+.helioryn/
+
+# Deployment workspace (duplicates root) — root-level only
+/helioryn/
+
+# Downloaded reference data (re-generate via seed scripts)
+demo-data/
+
+# Temp/test files
+web-complete-redesign-test1.md
+
+# Testing
+.pytest_cache/
+*.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.venv-m4/

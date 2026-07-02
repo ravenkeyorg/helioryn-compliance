@@ -1,0 +1,78 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+<table class="daemon-table">
+  <thead>
+    <tr><th>Subprocess</th><th>Status</th><th>PID</th><th>Progress</th><th>Last Run</th><th class="col-run"></th></tr>
+  </thead>
+  <tbody>
+    {% for d in daemons %}
+    <tr>
+      <td><strong>{{ d.name|capitalize }}</strong></td>
+      <td>
+        {% if d.state == 'processing' %}
+          {% if d.overdue %}
+            <span class="daemon-status-dot overdue"></span><span class="status-label status-overdue">Running (overdue)</span>
+          {% else %}
+            <span class="daemon-status-dot running"></span><span class="status-label status-processing">Processing</span>
+          {% endif %}
+        {% elif d.state == 'completed' %}
+          <span class="daemon-status-dot idle"></span><span class="status-label status-idle">Idle</span>
+        {% elif d.state == 'error' %}
+          <span class="daemon-status-dot stopped"></span><span class="status-label status-error">Error</span>
+        {% else %}
+          <span class="daemon-status-dot unknown"></span><span class="status-label status-unknown">Unknown</span>
+        {% endif %}
+      </td>
+      <td class="mono">{{ d.pid or '—' }}</td>
+      <td class="col-progress">
+        {% if d.state == 'processing' %}
+          {% if d.progress is not none %}
+          <div class="prog-bar">
+            <div class="prog-fill" style="width: {{ d.progress }}%">
+              <span class="prog-pct">{{ d.progress }}%</span>
+            </div>
+          </div>
+          <div class="prog-detail">{{ d.progress_msg or 'Processing...' }}</div>
+          {% else %}
+          <div class="prog-bar">
+            <div class="prog-fill prog-indet"></div>
+          </div>
+          <div class="prog-detail">{{ d.progress_msg or 'Running...' }}</div>
+          {% endif %}
+        {% elif d.state == 'error' %}
+          <div class="prog-err">✗ {{ d.last_result or 'Error' }}</div>
+        {% elif d.state == 'unknown' %}
+          <div class="prog-idle">{{ d.last_result or '—' }}</div>
+        {% else %}
+          <div class="prog-done">✓ {{ d.last_result or 'Idle' }}</div>
+        {% endif %}
+      </td>
+      <td class="mono small">
+        {% if d.state == 'processing' and not d.last_completed_at %}
+          {% if d.updated_at %}
+            Running since {{ d.updated_at[:16] }}
+          {% else %}
+            Running…
+          {% endif %}
+        {% elif d.last_completed_at %}
+          {{ d.last_completed_at[:19] if d.last_completed_at else '—' }}
+        {% else %}
+          Never
+        {% endif %}
+      </td>
+      <td class="col-run">
+        <button class="btn btn-xs btn-run"
+                hx-post="/api/daemon/run/{{ d.name }}"
+                hx-swap="outerHTML"
+                hx-disabled-elt="this"
+                hx-indicator="this">
+          <svg class="run-icon" viewBox="0 0 24 24" fill="currentColor" width="10" height="10">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <span class="run-label">Run</span>
+          <span class="run-spinner"></span>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

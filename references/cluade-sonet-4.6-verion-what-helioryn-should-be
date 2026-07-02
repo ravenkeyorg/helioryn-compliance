@@ -1,0 +1,51 @@
+Claude sonet 4.6 - version
+
+This is a rich system design question. Let me map out the architecture and then address trustworthiness — which is really the harder problem.Here's a breakdown of each layer and what "trustworthy" actually means in practice for each one.
+
+---
+
+**Layer 1 — Ingestion**
+
+The most important parts are source fingerprinting (knowing exactly where each piece of content came from, with a stable identifier), deduplication (the same story republished 40 times shouldn't inflate confidence), and change detection (identifying when a source updates or retracts something). Trustworthiness here means never losing provenance — every ingested document gets a permanent, tamper-evident record of its origin, timestamp, and retrieval context.
+
+**Layer 2 — Claim extraction**
+
+This is arguably the hardest technical layer. Breaking free text into atomic, citable claims without distorting meaning is where most evidence-tracking systems fail. Trustworthiness requires: keeping the verbatim source passage alongside every extracted claim, having human-reviewable extraction rationale, and being explicit about what the system didn't extract or found ambiguous.
+
+**Layer 3 — The evidence graph (the core)**
+
+This is the heart of Helioryn. The key design decision is storing *relationships* rather than conclusions. Each claim node needs: supporting evidence edges, contradicting evidence edges, temporal versioning (the graph at any past point should be fully reconstructable), source provenance, and confidence weights that are computed, not asserted. Trustworthiness here means the graph must be append-only — nothing is ever deleted, only superseded.
+
+**Layer 4 — Reasoning**
+
+Where confidence scores get synthesized from evidence weights. The critical property: every reasoning output must be fully traceable back to specific graph nodes. No black-box confidence numbers. If the system says "high confidence," a user must be able to drill down and see exactly which evidence produced that score.
+
+**Layer 5 — Trust and auditability (the trust layer)**
+
+This is what separates a trustworthy system from a plausible-looking one. The non-negotiable components are an immutable audit log (cryptographically signed, time-stamped, append-only), full reasoning traces stored with every conclusion, a human review queue for flagged low-confidence or high-stakes claims, and explicit conflict-of-interest tracking for sources (who funds this publication? who employs this researcher?).
+
+**Layer 6 — Query interface**
+
+Every answer the system gives must include, by default, the evidence trail behind it. Not as an optional "show sources" button — as a first-class part of every response. The question "what evidence supports this?" should be inseparable from the answer itself.
+
+**Layer 7 — Governance**
+
+This is usually the layer organizations skip and then regret. It covers: systematic source vetting processes, ongoing bias monitoring (is the system consistently over- or under-weighting certain types of sources?), a defined process for human escalation, and transparency about the system's own limitations and blind spots.
+
+---
+
+**Making it completely trustworthy: the harder problem**
+
+Technical architecture gets you 40% of the way. The rest is epistemological and institutional:
+
+**Epistemic honesty** — the system must be able to say "we don't know," "evidence is genuinely split," and "this question is outside our reliable coverage." A system that produces confident-sounding answers on thin evidence is actively harmful.
+
+**Adversarial robustness** — any sufficiently useful evidence network will attract attempts to pollute it. Coordinated source manipulation, citation rings, retroactive edits to original sources. You need anomaly detection for unusual corroboration patterns, not just content validation.
+
+**Separation of confidence from consensus** — popular belief and strong evidence are not the same thing. The system needs to explicitly distinguish between "most sources say X" and "the best-quality evidence supports X."
+
+**Calibration auditing** — over time, track whether the system's confidence scores actually predict accuracy. If claims rated 80% confidence are right 60% of the time, the calibration is broken and must be corrected.
+
+**Human escalation paths** — for high-stakes domains (medical, legal, security), automated reasoning should feed human analysts, not replace them. The trust architecture must make this workflow easy, not an afterthought.
+
+The deepest trust property of all: the system should be *more* useful to someone who disagrees with a conclusion it reaches than to someone who agrees with it, because it shows them exactly what evidence they'd need to engage with.

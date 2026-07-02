@@ -1,0 +1,17 @@
+[
+  {"name": "Sequoia Capital", "entity_type": "investor", "search_name": "Sequoia Capital", "region": "US-West"},
+  {"name": "Andreessen Horowitz", "entity_type": "investor", "search_name": "a16z", "region": "US-West"},
+  {"name": "Y Combinator", "entity_type": "investor", "search_name": "Y Combinator", "region": "US-West"},
+  {"name": "Accel", "entity_type": "investor", "search_name": "Accel", "region": "US-West/Europe"},
+  {"name": "Lightspeed Venture Partners", "entity_type": "investor", "search_name": "Lightspeed Venture Partners", "region": "US-West"},
+  {"name": "Tiger Global Management", "entity_type": "investor", "search_name": "Tiger Global", "region": "US-East"},
+  {"name": "SoftBank Vision Fund", "entity_type": "investor", "search_name": "SoftBank", "region": "Asia"},
+  {"name": "Google Ventures", "entity_type": "investor", "search_name": "Google Ventures", "region": "US-West"},
+  {"name": "NVIDIA Inception", "entity_type": "investor", "search_name": "NVIDIA Inception", "region": "US-West"},
+  {"name": "Index Ventures", "entity_type": "investor", "search_name": "Index Ventures", "region": "Europe"},
+  {"name": "Founders Fund", "entity_type": "investor", "search_name": "Founders Fund", "region": "US-West"},
+  {"name": "Insight Partners", "entity_type": "investor", "search_name": "Insight Partners", "region": "US-East"},
+  {"name": "General Catalyst", "entity_type": "investor", "search_name": "General Catalyst", "region": "US-East"},
+  {"name": "Kleiner Perkins", "entity_type": "investor", "search_name": "Kleiner Perkins", "region": "US-West"},
+  {"name": "Benchmark", "entity_type": "investor", "search_name": "Benchmark Capital", "region": "US-West"}
+]

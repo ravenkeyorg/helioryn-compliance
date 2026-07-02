@@ -1,0 +1,101 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+{% extends "base.html" %}
+{% block title %}Helioryn — Admin{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4">
+  <h1 class="text-2xl font-heading font-bold mb-6">Admin Dashboard</h1>
+
+  <!-- Health -->
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="card">
+      <div class="label">Database</div>
+      <div class="stat" style="color:{% if db_ok %}#4a9d7a{% else %}#b54545{% endif %}">
+        {% if db_ok %}Connected{% else %}{{ stats.db_error }}{% endif %}
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">Ollama</div>
+      <div class="stat" style="color:{% if ollama_ok %}#4a9d7a{% else %}#d4943a{% endif %}">
+        {% if ollama_ok %}Available{% else %}Unreachable{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- DB Stats -->
+  <div class="card mb-6">
+    <h2 class="text-lg font-heading font-semibold mb-3">Database Summary</h2>
+    <div class="grid grid-cols-4 gap-4">
+      <div>
+        <div class="label">Sources</div>
+        <div class="stat">{{ stats.source_total }}</div>
+      </div>
+      <div>
+        <div class="label">Claims</div>
+        <div class="stat">{{ stats.claim_count }}</div>
+      </div>
+      <div>
+        <div class="label">Embeddings</div>
+        <div class="stat">{{ stats.embedding_count }}</div>
+      </div>
+      <div>
+        <div class="label">Canonical Claims</div>
+        <div class="stat">{{ stats.canonical_count }}</div>
+      </div>
+    </div>
+    <div class="mt-3">
+      <div class="label">Sources by method</div>
+      <div class="text-sm mt-1">
+        {% for method, cnt in stats.sources_by_method.items() %}
+        <span class="badge-gray mr-2">{{ method }}: {{ cnt }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- OIG Reports -->
+  <div class="card mb-6">
+    <h2 class="text-lg font-heading font-semibold mb-3">Seeded OIG Reports</h2>
+    <div class="text-sm text-text-muted mb-2">{{ stats.oig_reports|length }} report{% if stats.oig_reports|length != 1 %}s{% endif %}</div>
+    {% if stats.oig_reports %}
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-text-muted text-xs uppercase tracking-wider border-b border-border">
+            <th class="text-left py-2 pr-3">Title</th>
+            <th class="text-left py-2 pr-3">Claims</th>
+            <th class="text-left py-2 pr-3">Imported</th>
+            <th class="text-left py-2">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in stats.oig_reports %}
+          <tr class="border-b border-border-subtle">
+            <td class="py-2 pr-3">{{ r.title or 'Untitled' }}</td>
+            <td class="py-2 pr-3">{{ r.claim_count }}</td>
+            <td class="py-2 pr-3 text-text-muted">{{ r.retrieved_at.strftime('%Y-%m-%d') if r.retrieved_at else '—' }}</td>
+            <td class="py-2">
+              {% if r.source_url %}
+              <a href="{{ r.source_url }}" target="_blank" rel="noopener" class="text-accent hover:text-accent-hover">view ↗</a>
+              {% else %}
+              <span class="text-text-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-sm text-text-muted">No OIG reports seeded yet.</div>
+    {% endif %}
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="card">
+    <h2 class="text-lg font-heading font-semibold mb-3">Actions</h2>
+    <div class="flex gap-3">
+      <a href="/change-password" class="btn-ghost btn-sm">Change Password</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
