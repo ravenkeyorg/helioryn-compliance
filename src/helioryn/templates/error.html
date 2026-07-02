@@ -1,0 +1,11 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+{% extends "base.html" %}
+{% block title %}Error — Helioryn{% endblock %}
+{% block content %}
+<div class="page" style="text-align: center; padding-top: 4rem;">
+  <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--color-text-muted);">!</div>
+  <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Error</h1>
+  <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">{{ message }}</p>
+  <a href="/" class="btn btn-primary">Dashboard</a>
+</div>
+{% endblock %}

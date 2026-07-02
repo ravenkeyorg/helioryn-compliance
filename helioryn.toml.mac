@@ -1,0 +1,266 @@
+# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+[database]
+url = "postgresql:///helioryn_dev?host=/tmp"
+
+[cache]
+url = "redis://localhost:6379/0"
+
+[auth]
+api_key = "c54c906a-52a2-4dee-beb0-7e917f13defe"
+admin_password = "admin"
+session_secret = "helioryn-dev-secret"
+
+[grounding]
+wikidata_enabled = true
+factcheck_enabled = true
+factcheck_provider = "google"
+factcheck_api_key = "AIzaSyCe7iVeQTq1rmSzBRK_Q9dAEZ5NnIBs2I0"
+
+[ingest]
+fetch_delay = 0.3
+auto_generate_queries = false
+domain_denylist = ["msn.com", "aol.com", "yahoo.com", "finance.yahoo.com",
+    "markets.businessinsider.com", "247wallst.com", "prnewswire.com",
+    "cryptobriefing.com"]
+
+[ingest.searcher]
+type = "searxng"
+base_url = "http://localhost:8888"
+categories = "general,news,science"
+language = "en"
+
+[ingest.fetcher]
+type = "http"
+timeout = 30.0
+user_agent = "Helioryn/0.1"
+
+[ingest.normalizer]
+type = "readability"
+
+[ingest.ingestor]
+type = "postgres"
+
+[ingest.topics]
+items = [
+    # ====================================================================
+    # Artificial Intelligence (ai topic — tier 1 core)
+    # ====================================================================
+
+    # --- Models ---
+    { query = "GPT AI model", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "LLaMA open source", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "DeepSeek AI", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "Claude Anthropic", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "Gemini Google", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "Mistral AI", interval_minutes = 120, language = "en", category = "Models" },
+
+    # --- AI Regulation ---
+    { query = "AI Act regulation", interval_minutes = 120, language = "en", category = "Regulation" },
+    { query = "artificial intelligence bill law", interval_minutes = 120, language = "en", category = "Regulation" },
+    { query = "AI governance policy", interval_minutes = 120, language = "en", category = "Regulation" },
+    { query = "data protection AI", interval_minutes = 120, language = "en", category = "Regulation" },
+
+    # --- AI Safety ---
+    { query = "AI safety research", interval_minutes = 120, language = "en", category = "Safety" },
+    { query = "alignment artificial intelligence", interval_minutes = 120, language = "en", category = "Safety" },
+    { query = "AI risk assessment", interval_minutes = 120, language = "en", category = "Safety" },
+    { query = "AI ethics framework", interval_minutes = 120, language = "en", category = "Safety" },
+
+    # --- Open Source ---
+    { query = "open source AI model", interval_minutes = 120, language = "en", category = "Open Source" },
+    { query = "Hugging Face model", interval_minutes = 120, language = "en", category = "Open Source" },
+    { query = "open weights AI", interval_minutes = 120, language = "en", category = "Open Source" },
+    { query = "open source artificial intelligence", interval_minutes = 120, language = "en", category = "Open Source" },
+
+    # --- AI Research ---
+    { query = "artificial intelligence breakthrough", interval_minutes = 120, language = "en", category = "Research" },
+    { query = "machine learning research", interval_minutes = 120, language = "en", category = "Research" },
+    { query = "AI capability advance", interval_minutes = 120, language = "en", category = "Research" },
+    { query = "neural network discovery", interval_minutes = 120, language = "en", category = "Research" },
+
+    # --- Compute ---
+    { query = "AI chip semiconductor", interval_minutes = 120, language = "en", category = "Compute" },
+    { query = "data center AI training", interval_minutes = 120, language = "en", category = "Compute" },
+    { query = "GPU artificial intelligence", interval_minutes = 120, language = "en", category = "Compute" },
+    { query = "AI compute infrastructure", interval_minutes = 120, language = "en", category = "Compute" },
+
+    # --- Funding ---
+    { query = "AI startup funding", interval_minutes = 120, language = "en", category = "Funding" },
+    { query = "artificial intelligence investment", interval_minutes = 120, language = "en", category = "Funding" },
+    { query = "AI company acquisition", interval_minutes = 120, language = "en", category = "Funding" },
+    { query = "venture capital AI", interval_minutes = 120, language = "en", category = "Funding" },
+
+    # --- Global AI (region-specific for broader geographic coverage) ---
+    { query = "EU AI Act compliance enforcement", interval_minutes = 120, language = "en", category = "Regulation" },
+    { query = "China AI development regulation", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "India AI startup ecosystem", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "Japan AI robotics research", interval_minutes = 120, language = "en", category = "Models" },
+    { query = "Middle East AI investment", interval_minutes = 120, language = "en", category = "Funding" },
+    { query = "Africa AI innovation hub", interval_minutes = 120, language = "en", category = "Models" },
+
+    # ====================================================================
+    # Regulation & Policy (regulation topic — tier 1 core)
+    # ====================================================================
+
+    { query = "EU digital regulation enforcement", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "China cybersecurity data localization law", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "India technology regulation framework", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "Brazil data protection authority ruling", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "Africa digital policy regulation", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "OECD digital economy policy", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "GDPR enforcement penalty fine", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "Digital Services Act compliance", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "US antitrust technology regulation", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+    { query = "UK AI safety summit regulation", interval_minutes = 120, language = "en", category = "RegulationPolicy" },
+
+    # ====================================================================
+    # Cybersecurity (cybersecurity topic — tier 1 core)
+    # ====================================================================
+
+    { query = "ransomware attack critical infrastructure", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "state sponsored cyber threat intelligence", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "cyber attack Ukraine Russia", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "China cyber espionage campaign", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "cybercrime data breach 2026", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "OT ICS cybersecurity vulnerability", interval_minutes = 120, language = "en", category = "Vulnerabilities" },
+    { query = "zero day vulnerability disclosure", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "supply chain security attack", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "cloud security breach data", interval_minutes = 120, language = "en", category = "CyberThreats" },
+    { query = "quantum computing encryption threat", interval_minutes = 120, language = "en", category = "Vulnerabilities" },
+
+    # ====================================================================
+    # Infrastructure & Utilities (infrastructure topic — tier 1 core)
+    # ====================================================================
+
+    { query = "smart grid renewable energy storage", interval_minutes = 120, language = "en", category = "EnergyGrid" },
+    { query = "5G Open RAN deployment", interval_minutes = 120, language = "en", category = "TelecomBroadband" },
+    { query = "undersea cable internet connectivity", interval_minutes = 120, language = "en", category = "TelecomBroadband" },
+    { query = "Starlink satellite internet expansion", interval_minutes = 120, language = "en", category = "TelecomBroadband" },
+    { query = "semiconductor chip fabrication plant", interval_minutes = 120, language = "en", category = "CriticalInfra" },
+    { query = "AI data center electricity demand", interval_minutes = 120, language = "en", category = "CriticalInfra" },
+    { query = "power grid cyberattack vulnerability", interval_minutes = 120, language = "en", category = "EnergyGrid" },
+    { query = "broadband infrastructure rural access", interval_minutes = 120, language = "en", category = "TelecomBroadband" },
+    { query = "EV charging network deployment", interval_minutes = 120, language = "en", category = "EnergyGrid" },
+    { query = "water treatment facility security", interval_minutes = 120, language = "en", category = "CriticalInfra" },
+
+    # ====================================================================
+    # Geopolitical & Strategic Risk (geopolitical topic — tier 1 core)
+    # ====================================================================
+
+    { query = "US China technology export controls", interval_minutes = 120, language = "en", category = "TradeSanctions" },
+    { query = "NATO defense strategy emerging technology", interval_minutes = 120, language = "en", category = "DefenseMilitary" },
+    { query = "Russia Ukraine war technology", interval_minutes = 120, language = "en", category = "Geopolitics" },
+    { query = "India Pacific strategic competition", interval_minutes = 120, language = "en", category = "Geopolitics" },
+    { query = "Middle East AI investment strategy", interval_minutes = 120, language = "en", category = "Geopolitics" },
+    { query = "Taiwan semiconductor supply chain", interval_minutes = 120, language = "en", category = "TradeSanctions" },
+    { query = "Iran nuclear program enrichment", interval_minutes = 120, language = "en", category = "Geopolitics" },
+    { query = "North Korea missile launch", interval_minutes = 120, language = "en", category = "DefenseMilitary" },
+    { query = "South China Sea military", interval_minutes = 120, language = "en", category = "Geopolitics" },
+    { query = "US foreign aid policy", interval_minutes = 120, language = "en", category = "Geopolitics" },
+
+    # ====================================================================
+    # Science & Research (science topic — tier 2)
+    # ====================================================================
+
+    { query = "science breakthrough research 2026", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "CERN particle physics discovery", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "quantum computing research breakthrough", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "fusion energy power plant", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "materials science battery technology", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "NIH research grant funding", interval_minutes = 120, language = "en", category = "AcademicResearch" },
+    { query = "gene editing CRISPR clinical trial", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "dark matter physics experiment", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "James Webb Space Telescope discovery", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+    { query = "synthetic biology breakthrough", interval_minutes = 120, language = "en", category = "ScienceDiscovery" },
+
+    # ====================================================================
+    # Healthcare & Public Health (healthcare topic — tier 2)
+    # ====================================================================
+
+    { query = "WHO pandemic preparedness treaty", interval_minutes = 120, language = "en", category = "PublicHealth" },
+    { query = "Africa vaccine manufacturing", interval_minutes = 120, language = "en", category = "PublicHealth" },
+    { query = "global health security surveillance", interval_minutes = 120, language = "en", category = "PublicHealth" },
+    { query = "digital health regulation FDA", interval_minutes = 120, language = "en", category = "HealthPolicy" },
+    { query = "AI drug discovery clinical trial", interval_minutes = 120, language = "en", category = "MedicalResearch" },
+    { query = "precision medicine genomics", interval_minutes = 120, language = "en", category = "MedicalResearch" },
+    { query = "mRNA vaccine technology", interval_minutes = 120, language = "en", category = "MedicalResearch" },
+    { query = "antimicrobial resistance WHO", interval_minutes = 120, language = "en", category = "PublicHealth" },
+    { query = "mental health crisis treatment", interval_minutes = 120, language = "en", category = "HealthPolicy" },
+    { query = "Alzheimer disease research", interval_minutes = 120, language = "en", category = "MedicalResearch" },
+
+    # ====================================================================
+    # Environmental & Climate Intelligence (environment topic — tier 2)
+    # ====================================================================
+
+    { query = "IPCC climate report impacts", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "Amazon deforestation monitoring", interval_minutes = 120, language = "en", category = "NaturalResources" },
+    { query = "extreme weather climate adaptation", interval_minutes = 120, language = "en", category = "DisasterMonitoring" },
+    { query = "carbon capture technology deployment", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "renewable energy grid storage", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "methane emissions regulation", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "COP climate summit agreement", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "electric vehicle adoption mandate", interval_minutes = 120, language = "en", category = "ClimateEnvironment" },
+    { query = "ocean plastic pollution treaty", interval_minutes = 120, language = "en", category = "NaturalResources" },
+    { query = "biodiversity loss extinction risk", interval_minutes = 120, language = "en", category = "NaturalResources" },
+
+    # ====================================================================
+    # Space & Aerospace (space topic — tier 2)
+    # ====================================================================
+
+    { query = "NASA Artemis lunar program", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "China Tiangong space station", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "ESA space exploration mission", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "Starlink satellite mega constellation", interval_minutes = 120, language = "en", category = "SatellitePrograms" },
+    { query = "India space program Moon Mars", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "space debris orbit collision avoidance", interval_minutes = 120, language = "en", category = "SpacePolicy" },
+    { query = "SpaceX Starship launch test", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "Blue Origin lunar lander", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "Mars rover exploration", interval_minutes = 120, language = "en", category = "SpaceExploration" },
+    { query = "ISS deorbit plan", interval_minutes = 120, language = "en", category = "SpacePolicy" },
+
+    # ====================================================================
+    # Arctic Intelligence (arctic topic — tier 3)
+    # ====================================================================
+
+    { query = "Arctic shipping Northern Sea Route", interval_minutes = 120, language = "en", category = "ArcticShipping" },
+    { query = "Arctic military NATO Russia", interval_minutes = 120, language = "en", category = "ArcticMilitary" },
+    { query = "Greenland ice sheet melt", interval_minutes = 120, language = "en", category = "ArcticShipping" },
+    { query = "Arctic Council policy cooperation", interval_minutes = 120, language = "en", category = "ArcticShipping" },
+    { query = "Arctic infrastructure broadband", interval_minutes = 120, language = "en", category = "ArcticInfrastructure" },
+    { query = "Arctic security surveillance", interval_minutes = 120, language = "en", category = "ArcticMilitary" },
+    { query = "Arctic seabed mining", interval_minutes = 120, language = "en", category = "ArcticShipping" },
+    { query = "Russia Arctic military base", interval_minutes = 120, language = "en", category = "ArcticMilitary" },
+    { query = "Canada Arctic sovereignty", interval_minutes = 120, language = "en", category = "ArcticMilitary" },
+    { query = "Arctic wildlife migration climate", interval_minutes = 120, language = "en", category = "ArcticShipping" },
+
+    # ====================================================================
+    # Tribal Governance Intelligence (tribal topic — tier 3)
+    # ====================================================================
+
+    { query = "tribal sovereignty federal Indian policy", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "indigenous data sovereignty AI", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "native American broadband tribal", interval_minutes = 120, language = "en", category = "TribalBroadband" },
+    { query = "tribal energy development natural resources", interval_minutes = 120, language = "en", category = "TribalGrants" },
+    { query = "tribal healthcare IHS funding", interval_minutes = 120, language = "en", category = "TribalGrants" },
+    { query = "Indian Country economic development", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "Native American voting rights", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "tribal land repatriation", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "Indian Child Welfare Act", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+    { query = "tribal gaming compact", interval_minutes = 120, language = "en", category = "TribalGovernance" },
+
+    # ====================================================================
+    # Cultural Heritage & Archives (heritage topic — tier 3)
+    # ====================================================================
+
+    { query = "UNESCO world heritage preservation", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "museum digital collection AI", interval_minutes = 120, language = "en", category = "MuseumsLibraries" },
+    { query = "indigenous language preservation technology", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "cultural heritage digitization", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "archive metadata standards", interval_minutes = 120, language = "en", category = "ArchivesTech" },
+    { query = "digital repatriation cultural artifacts", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "UNESCO intangible cultural heritage", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "library archive digitization grant", interval_minutes = 120, language = "en", category = "MuseumsLibraries" },
+    { query = "historic preservation tax credit", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+    { query = "indigenous oral history preservation", interval_minutes = 120, language = "en", category = "HeritagePreservation" },
+]
+

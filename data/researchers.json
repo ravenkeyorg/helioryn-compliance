@@ -1,0 +1,21 @@
+[
+  {"name": "Geoffrey Hinton", "entity_type": "person", "search_name": "Geoffrey Hinton", "region": "Canada/UK"},
+  {"name": "Yann LeCun", "entity_type": "person", "search_name": "Yann LeCun", "region": "US-East"},
+  {"name": "Demis Hassabis", "entity_type": "person", "search_name": "Demis Hassabis", "region": "UK"},
+  {"name": "Sam Altman", "entity_type": "person", "search_name": "Sam Altman", "region": "US-West"},
+  {"name": "Dario Amodei", "entity_type": "person", "search_name": "Dario Amodei", "region": "US-West"},
+  {"name": "Fei-Fei Li", "entity_type": "person", "search_name": "Fei-Fei Li", "region": "US-West"},
+  {"name": "Andrew Ng", "entity_type": "person", "search_name": "Andrew Ng", "region": "US-West"},
+  {"name": "Ilya Sutskever", "entity_type": "person", "search_name": "Ilya Sutskever", "region": "US-West"},
+  {"name": "Andrej Karpathy", "entity_type": "person", "search_name": "Andrej Karpathy", "region": "US-West"},
+  {"name": "Yoshua Bengio", "entity_type": "person", "search_name": "Yoshua Bengio", "region": "Canada"},
+  {"name": "Max Tegmark", "entity_type": "person", "search_name": "Max Tegmark", "region": "US-East"},
+  {"name": "Jensen Huang", "entity_type": "person", "search_name": "Jensen Huang", "region": "US-West"},
+  {"name": "Satya Nadella", "entity_type": "person", "search_name": "Satya Nadella", "region": "US-West"},
+  {"name": "Sundar Pichai", "entity_type": "person", "search_name": "Sundar Pichai", "region": "US-West"},
+  {"name": "Mark Zuckerberg", "entity_type": "person", "search_name": "Mark Zuckerberg", "region": "US-West"},
+  {"name": "Elon Musk", "entity_type": "person", "search_name": "Elon Musk", "region": "US-West"},
+  {"name": "Timnit Gebru", "entity_type": "person", "search_name": "Timnit Gebru", "region": "US-East"},
+  {"name": "Nick Bostrom", "entity_type": "person", "search_name": "Nick Bostrom", "region": "UK"},
+  {"name": "Eliezer Yudkowsky", "entity_type": "person", "search_name": "Eliezer Yudkowsky", "region": "US-West"}
+]

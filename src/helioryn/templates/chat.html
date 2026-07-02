@@ -1,0 +1,179 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+{% extends "base.html" %}
+{% block title %}Helioryn — Chat{% endblock %}
+{% block head_extra %}
+<link rel="stylesheet" href="/static/css/chat.css">
+{% endblock %}
+{% block content %}
+<div id="chat-layout">
+  {# ── Sidebar (hidden when not authenticated) ── #}
+  <aside id="sidebar" x-data="sidebarApp()" x-show="auth.authenticated"
+       x-cloak :class="{'sidebar-open': sidebarOpen}" class="sidebar">
+    <div class="sidebar-inner">
+      <button class="sidebar-new-btn" @click="newChat()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+        New Chat
+      </button>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-header" @click="projectsExpanded = !projectsExpanded">
+          <span x-text="projectsExpanded ? '▼' : '▶'"></span>
+          Projects
+        </div>
+        <div x-show="projectsExpanded" class="sidebar-section-body">
+          <template x-for="proj in projects" :key="proj.project_id">
+            <div class="sidebar-project">
+              <div class="sidebar-project-header" @click="toggleProject(proj.project_id)">
+                <span x-text="expandedProjectId === proj.project_id ? '▼' : '▶'"></span>
+                <span class="sidebar-project-name" x-text="proj.name"></span>
+                <span class="sidebar-project-count" x-text="'(' + proj.session_count + ')'"></span>
+              </div>
+              <div x-show="expandedProjectId === proj.project_id" class="sidebar-project-sessions">
+                <template x-for="s in projectSessions[proj.project_id] || []" :key="s.session_id">
+                  <div class="sidebar-chat-row">
+                    <div class="sidebar-chat" :class="{'sidebar-chat-active': s.session_id === currentSessionId}"
+                         @click="loadSession(s.session_id)">
+                      <span class="sidebar-chat-icon">💬</span>
+                      <div class="sidebar-chat-info">
+                        <span class="sidebar-chat-title" x-text="s.title"></span>
+                        <span class="sidebar-chat-date" x-text="timeAgo(s.updated_at)"></span>
+                      </div>
+                    </div>
+                    <button class="sidebar-chat-del" @click="deleteSession(s.session_id)" title="Delete">✕</button>
+                  </div>
+                </template>
+                <button class="sidebar-project-newchat" @click="newChatInProject(proj.project_id)">
+                  + New Chat in this project
+                </button>
+              </div>
+            </div>
+          </template>
+          <button class="sidebar-add-btn" @click="showNewProject = true" x-show="!showNewProject">
+            + New Project
+          </button>
+          <div x-show="showNewProject" class="sidebar-inline-form">
+            <input type="text" x-model="newProjectName" placeholder="Project name"
+                   @keydown.enter="createProject()" class="sidebar-input">
+            <button @click="createProject()" class="sidebar-btn-sm">Add</button>
+            <button @click="showNewProject = false; newProjectName = ''" class="sidebar-btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          Recent Chats
+        </div>
+        <div class="sidebar-section-body">
+          <template x-for="s in recentSessions" :key="s.session_id">
+            <div class="sidebar-chat-row">
+              <div class="sidebar-chat" :class="{'sidebar-chat-active': s.session_id === currentSessionId}"
+                   @click="loadSession(s.session_id)">
+                <span class="sidebar-chat-icon">💬</span>
+                <div class="sidebar-chat-info">
+                  <span class="sidebar-chat-title" x-text="s.title"></span>
+                  <span class="sidebar-chat-date" x-text="timeAgo(s.updated_at)"></span>
+                </div>
+              </div>
+              <button class="sidebar-chat-del" @click="deleteSession(s.session_id)" title="Delete">✕</button>
+            </div>
+          </template>
+          <div x-show="recentSessions.length === 0" class="sidebar-empty">
+            No chats yet. Start a new conversation!
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  {# ── Main Chat Area ── #}
+  <div id="chat-app" :class="{'chat-with-sidebar': auth.authenticated}" x-data="chatApp()">
+    {# Mobile hamburger #}
+    <button class="sidebar-toggle" x-show="auth.authenticated"
+            @click="sidebarOpen = !sidebarOpen" x-cloak>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18"></path>
+      </svg>
+    </button>
+
+    <div id="chat-messages" class="chat-messages" x-ref="messages">
+      <div class="chat-welcome">
+        <h2>Helioryn Evidence Assistant</h2>
+        <p class="chat-welcome-hint">
+          Ask questions about grant compliance, training requirements, policies, or audit evidence.
+          <br><span class="text-xs text-text-muted">Toggle between <strong>Public Intelligence</strong> (government sources) and <strong>Org Compliance</strong> (your documents) using the mode switch above.</span>
+        </p>
+      </div>
+      <template x-for="(msg, i) in messages" :key="i">
+        <div>
+          <div class="chat-msg" :class="'chat-msg-' + msg.role">
+            <div class="chat-msg-content" x-html="msg.content"></div>
+            <template x-if="msg.role === 'assistant' && msg.sources && msg.sources.length > 0">
+              <div class="chat-sources">
+                <button @click="msg.showSources = !msg.showSources" class="chat-sources-toggle">
+                  <span x-show="!msg.showSources">View supporting documents (<span x-text="msg.sources.length"></span>)</span>
+                  <span x-show="msg.showSources">Hide sources</span>
+                  <span x-text="msg.showSources ? '▲' : '▼'" class="ml-1"></span>
+                </button>
+                <div x-show="msg.showSources" class="chat-sources-list">
+                  <template x-for="(src, si) in msg.sources" :key="si">
+                    <div class="chat-source-item">
+                      <div class="chat-source-title" x-text="src.title"></div>
+                      <div class="chat-source-excerpt" x-text="src.excerpt"></div>
+                      <div class="chat-source-meta">
+                        <span class="badge-gray" x-text="src.source_name || src.retrieval_method"></span>
+                        <template x-if="src.url">
+                          <a :href="src.url" target="_blank" rel="noopener" class="chat-source-link">visit ↗</a>
+                        </template>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+      <div x-show="loading" class="chat-typing">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span x-show="govSearching" class="chat-typing-text">Searching government databases...</span>
+      </div>
+    </div>
+
+    <div class="chat-input-bar">
+      <div class="chat-input-form">
+        <button type="button" @click="govSearch = !govSearch"
+                class="chat-gov-btn" :class="{'active': govSearch}" :disabled="loading"
+                title="Search government databases for this question">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px">
+            <circle cx="10.5" cy="10.5" r="7.5"></circle>
+            <path d="M21 21l-5.2-5.2"></path>
+          </svg>
+          <span x-text="govSearch ? 'Gov ON' : 'Gov Search'"></span>
+        </button>
+        <input
+          type="text"
+          x-model="input"
+          placeholder="Ask about compliance, training, or audit evidence..."
+          class="chat-input"
+          :disabled="loading"
+          @keydown="if ($event.key === 'Enter' && !$event.shiftKey) { $event.preventDefault(); sendMessage(); }"
+          autofocus>
+        <button type="button" @click="sendMessage()" class="chat-send-btn" :disabled="loading || !input.trim()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13"></path>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/chat.js"></script>
+{% endblock %}

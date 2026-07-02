@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.helioryn.daemon</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/btaylor/Projects/helioryn-design/helioryn/venv/bin/helioryn</string>
+        <string>daemon</string>
+        <string>--interval</string>
+        <string>30</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/btaylor/Projects/helioryn-design</string>
+    <key>KeepAlive</key>
+    <true/>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/btaylor/.helioryn/daemon-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/btaylor/.helioryn/daemon-stderr.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/opt/homebrew/opt/postgresql@16/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

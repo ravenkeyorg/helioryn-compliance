@@ -1,0 +1,9 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+<div x-data>
+  <template x-for="r in results" :key="r.id">
+    <a :href="r.type === 'source' ? '/app/ai/sources/' + r.id : r.type === 'claim' ? '/app/ai/claims/' + r.id : r.type === 'narrative' ? '/app/ai/narratives/' + r.id : '/app/ai/entities'" class="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-700 text-gray-300">
+      <span class="text-xs uppercase text-gray-600 w-16 shrink-0" x-text="r.type === 'narrative' ? 'topic' : r.type"></span>
+      <span class="truncate" x-text="r.title"></span>
+    </a>
+  </template>
+</div>

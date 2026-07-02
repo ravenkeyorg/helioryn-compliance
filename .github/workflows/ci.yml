@@ -1,0 +1,16 @@
+# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+name: CI
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - run: pip install ruff pytest
+      - run: ruff check src/ tests/
+      - run: ruff format --check src/ tests/
+      - run: pytest tests/

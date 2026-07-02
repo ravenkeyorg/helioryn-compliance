@@ -1,0 +1,26 @@
+<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+{% extends "base.html" %}
+{% block title %}Helioryn — Sign Up{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Create Account</h1>
+    <p class="auth-subtitle">Sign up to save chats and organize by project.</p>
+    <form method="post" action="/signup" class="auth-form">
+      <label>
+        Username
+        <input type="text" name="username" required minlength="2" placeholder="your username" class="auth-input">
+      </label>
+      <label>
+        Password
+        <input type="password" name="password" required minlength="4" placeholder="at least 4 characters" class="auth-input">
+      </label>
+      {% if error %}
+      <p class="auth-error">{{ error }}</p>
+      {% endif %}
+      <button type="submit" class="btn btn-primary w-full">Create Account</button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="/login">Log in</a></p>
+  </div>
+</div>
+{% endblock %}
