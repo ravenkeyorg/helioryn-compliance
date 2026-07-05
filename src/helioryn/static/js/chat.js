@@ -50,6 +50,8 @@ function sidebarApp() {
     showNewProject: false,
     newProjectName: '',
     sidebarOpen: false,
+    dragSessionId: null,
+    dragTargetProjectId: null,
 
     async init() {
       window.sidebarAppInstance = this;
@@ -80,7 +82,6 @@ function sidebarApp() {
         const resp = await fetch('/api/projects');
         if (resp.ok) {
           this.projects = await resp.json();
-          // Load sessions for each project
           for (const proj of this.projects) {
             await this.loadProjectSessions(proj.project_id);
           }
@@ -152,6 +153,50 @@ function sidebarApp() {
           await window.chatAppInstance.startNewSession();
         }
         await this.loadSidebar();
+      } catch (e) {}
+    },
+
+    onDragStart(event, sessionId) {
+      this.dragSessionId = sessionId;
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', sessionId);
+      event.target.closest('.sidebar-chat-row').classList.add('sidebar-dragging');
+    },
+
+    onDragEnd(event) {
+      this.dragSessionId = null;
+      this.dragTargetProjectId = null;
+      event.target.closest('.sidebar-chat-row')?.classList.remove('sidebar-dragging');
+      document.querySelectorAll('.sidebar-drop-target').forEach(el => el.classList.remove('sidebar-drop-target'));
+    },
+
+    onDragOver(event, projectId) {
+      if (!this.dragSessionId) return;
+      this.dragTargetProjectId = projectId;
+      event.currentTarget.classList.add('sidebar-drop-target');
+    },
+
+    onDragLeave(event, projectId) {
+      if (event.currentTarget.contains(event.relatedTarget)) return;
+      this.dragTargetProjectId = null;
+      event.currentTarget.classList.remove('sidebar-drop-target');
+    },
+
+    async onDrop(event, projectId) {
+      event.currentTarget.classList.remove('sidebar-drop-target');
+      const sessionId = this.dragSessionId;
+      if (!sessionId) return;
+      this.dragSessionId = null;
+      this.dragTargetProjectId = null;
+      try {
+        const resp = await fetch(`/api/sessions/${sessionId}/project`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ project_id: projectId }),
+        });
+        if (resp.ok) {
+          await this.loadSidebar();
+        }
       } catch (e) {}
     },
   };
