@@ -235,3 +235,20 @@ async def delete_session(session_id: str, request: Request):
     if not ok:
         raise HTTPException(404, "Session not found")
     return {"status": "deleted"}
+
+
+@router.patch("/api/sessions/{session_id}/project")
+async def move_session_to_project(session_id: str, request: Request):
+    user = _require_user(request)
+    store = _get_store(request)
+    body = await request.json()
+    project_id = body.get("project_id")
+    db_user = await store.get_user_by_username(user["username"])
+    if not db_user:
+        raise HTTPException(404, "User not found")
+    ok = await store.update_chat_session(
+        UUID(session_id), db_user["user_id"], project_id=project_id or "",
+    )
+    if not ok:
+        raise HTTPException(404, "Session not found")
+    return {"status": "moved", "project_id": project_id}

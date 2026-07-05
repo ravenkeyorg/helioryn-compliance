@@ -25,14 +25,22 @@
         <div x-show="projectsExpanded" class="sidebar-section-body">
           <template x-for="proj in projects" :key="proj.project_id">
             <div class="sidebar-project">
-              <div class="sidebar-project-header" @click="toggleProject(proj.project_id)">
+              <div class="sidebar-project-header"
+                   @click="toggleProject(proj.project_id)"
+                   @dragover.prevent="onDragOver($event, proj.project_id)"
+                   @dragleave="onDragLeave($event, proj.project_id)"
+                   @drop.prevent="onDrop($event, proj.project_id)"
+                   :class="{'sidebar-drop-target': dragTargetProjectId === proj.project_id}">
                 <span x-text="expandedProjectId === proj.project_id ? '▼' : '▶'"></span>
                 <span class="sidebar-project-name" x-text="proj.name"></span>
                 <span class="sidebar-project-count" x-text="'(' + proj.session_count + ')'"></span>
               </div>
               <div x-show="expandedProjectId === proj.project_id" class="sidebar-project-sessions">
                 <template x-for="s in projectSessions[proj.project_id] || []" :key="s.session_id">
-                  <div class="sidebar-chat-row">
+                  <div class="sidebar-chat-row"
+                       draggable="true"
+                       @dragstart="onDragStart($event, s.session_id)"
+                       @dragend="onDragEnd($event)">
                     <div class="sidebar-chat" :class="{'sidebar-chat-active': s.session_id === currentSessionId}"
                          @click="loadSession(s.session_id)">
                       <span class="sidebar-chat-icon">💬</span>
@@ -68,7 +76,10 @@
         </div>
         <div class="sidebar-section-body">
           <template x-for="s in recentSessions" :key="s.session_id">
-            <div class="sidebar-chat-row">
+            <div class="sidebar-chat-row"
+                 draggable="true"
+                 @dragstart="onDragStart($event, s.session_id)"
+                 @dragend="onDragEnd($event)">
               <div class="sidebar-chat" :class="{'sidebar-chat-active': s.session_id === currentSessionId}"
                    @click="loadSession(s.session_id)">
                 <span class="sidebar-chat-icon">💬</span>

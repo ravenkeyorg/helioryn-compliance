@@ -276,6 +276,29 @@
   text-align: center;
 }
 
+/* ── Drag and Drop ────────────────────────────────────────── */
+.sidebar-chat-row[draggable="true"] {
+  cursor: grab;
+}
+
+.sidebar-chat-row[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.sidebar-dragging {
+  opacity: 0.4;
+}
+
+.sidebar-drop-target {
+  background: var(--color-accent-glow) !important;
+  border: 1px dashed var(--color-accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-project-header.sidebar-drop-target {
+  box-shadow: 0 0 0 2px var(--color-accent-glow);
+}
+
 /* ── Sidebar Toggle (mobile) ──────────────────────────────── */
 .sidebar-toggle {
   display: none;

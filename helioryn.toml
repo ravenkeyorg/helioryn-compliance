@@ -15,16 +15,12 @@ session_secret = "hc-compliance-secret"
 
 [llm]
 provider = "ollama"
-model = "qwen2.5:14b"
+model = "qwen2.5:7b"
 max_tokens = 4096
 temperature = 0.1
 
-[opencode]
-base_url = "https://api.opencode.ai/v1"
-# api_key = ""  # auto-reads from ~/.local/share/opencode/auth.json
-
 [ollama]
-model = "qwen2.5:14b"
+model = "qwen2.5:7b"
 base_url = "http://localhost:11434"
 max_tokens = 4096
 temperature = 0.1

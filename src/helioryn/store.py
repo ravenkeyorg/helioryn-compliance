@@ -4075,7 +4075,8 @@ class EventStore:
 
     async def update_chat_session(self, session_id: UUID, user_id: UUID,
                                    messages: list | None = None,
-                                   title: str | None = None) -> bool:
+                                   title: str | None = None,
+                                   project_id: UUID | None | str = None) -> bool:
         sets = ["updated_at = now()"]
         params: list = []
         idx = 1
@@ -4087,6 +4088,13 @@ class EventStore:
             sets.append(f"title = ${idx}")
             params.append(title)
             idx += 1
+        if project_id is not None:
+            if project_id == "":
+                sets.append("project_id = NULL")
+            else:
+                sets.append(f"project_id = ${idx}::uuid")
+                params.append(str(project_id))
+                idx += 1
         params.extend([session_id, user_id])
         sql = f"UPDATE chat_session SET {', '.join(sets)} WHERE session_id = ${idx} AND user_id = ${idx + 1}"
         idx += 2
