@@ -121,7 +121,7 @@ class AppConfig:
             socket = "/tmp" if sys.platform == "darwin" else "/var/run/postgresql"
             cfg.database_url = os.getenv(
                 "HELIORYN_DATABASE_URL",
-                f"postgresql://{user}@/helioryn_dev?host={socket}",
+                f"postgresql://{user}@/localhost_dev?host={socket}",
             )
 
         return cfg

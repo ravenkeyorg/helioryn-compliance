@@ -3,7 +3,7 @@ import asyncio
 from helioryn.store import EventStore
 
 async def check():
-    store = EventStore("postgresql:///helioryn_dev?host=/tmp")
+    store = EventStore("postgresql:///localhost_dev?host=/tmp")
     await store.connect()
     async with store._pool.acquire() as conn:
         rows = await conn.fetch("SELECT source_id, source_url, title FROM source_snapshot LIMIT 5")

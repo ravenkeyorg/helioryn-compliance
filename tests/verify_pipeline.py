@@ -41,7 +41,7 @@ def check(name: str, condition: bool, detail: str = ""):
 
 async def verify():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--db", default="postgresql:///helioryn_dev?host=/tmp")
+    parser.add_argument("--db", default="postgresql:///localhost_dev?host=/tmp")
     args = parser.parse_args()
 
     store = EventStore(args.db)

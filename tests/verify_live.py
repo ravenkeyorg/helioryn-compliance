@@ -6,7 +6,7 @@ from helioryn.extract.temporal import extract_temporal_references
 from helioryn.extract.uncertainty import detect_uncertainty
 
 async def verify():
-    s = EventStore("postgresql:///helioryn_dev?host=/tmp")
+    s = EventStore("postgresql:///localhost_dev?host=/tmp")
     await s.connect()
     async with s._pool.acquire() as conn:
         samples = await conn.fetch("SELECT claim_id, canonical_text FROM claim WHERE temporal_references IS NOT NULL AND temporal_references != '[]'::jsonb LIMIT 5")

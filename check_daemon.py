@@ -4,7 +4,7 @@ sys.path.insert(0, "src")
 from helioryn.store import EventStore
 
 async def check():
-    s = EventStore("postgresql:///helioryn_dev?host=/tmp")
+    s = EventStore("postgresql:///localhost_dev?host=/tmp")
     await s.connect()
     async with s._pool.acquire() as conn:
         unproc = await conn.fetchval("SELECT COUNT(*) FROM source_snapshot ss WHERE NOT EXISTS (SELECT 1 FROM claim c WHERE c.source_id = ss.source_id)")

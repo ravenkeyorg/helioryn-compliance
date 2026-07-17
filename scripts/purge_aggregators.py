@@ -29,7 +29,7 @@ AGGREGATOR_DOMAINS = [
     "cryptobriefing.com",
 ]
 
-DSN = "postgresql://btaylor@/helioryn_dev?host=/tmp"
+DSN = "postgresql://localuser@/localhost_dev?host=/tmp"
 
 
 def build_matches(domains: list[str]) -> str:

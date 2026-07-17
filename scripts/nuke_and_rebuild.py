@@ -47,7 +47,7 @@ def get_dsn(config_path: str | None) -> str:
         db = config.get("database", {})
         if db.get("url"):
             return db["url"]
-    return "postgresql://btaylor@/helioryn_dev?host=/tmp"
+    return "postgresql://localuser@/localhost_dev?host=/tmp"
 
 
 async def load_entities(filepath: str) -> list[dict]:

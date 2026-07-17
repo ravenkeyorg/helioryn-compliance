@@ -3,7 +3,7 @@
 One-time cleanup: delete low-quality claims from the database.
 
 Usage on M4:
-  /Users/btaylor/Projects/helioryn-design/helioryn/venv/bin/python \
+  /Users/localuser/Projects/helioryn-design/helioryn/venv/bin/python \
   /tmp/cleanup_low_quality_claims.py
 """
 
@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 # ── Read DB URL from helioryn.toml ──────────────────────────────────
-_CONFIG_PATH = Path("/Users/btaylor/Projects/helioryn-design/helioryn.toml")
+_CONFIG_PATH = Path("/Users/localuser/Projects/helioryn-design/helioryn.toml")
 try:
     import tomllib
 except ImportError:

@@ -4,7 +4,7 @@ sys.path.insert(0, "src")
 from helioryn.store import EventStore
 
 async def sample():
-    s = EventStore("postgresql:///helioryn_dev?host=/tmp")
+    s = EventStore("postgresql:///localhost_dev?host=/tmp")
     await s.connect()
     async with s._pool.acquire() as conn:
         rows = await conn.fetch("""SELECT r.source_claim_id, r.target_claim_id, r.confidence,

@@ -33,7 +33,7 @@ ruff format --check src/ tests/
 helioryn stats                          # quick smoke test — requires DB + config
 
 # CLI commands — must run on M4 (PostgreSQL lives there)
-ssh btaylor@m4 'source ~/Projects/helioryn-design/helioryn/venv/bin/activate && helioryn stats'
+ssh localuser@m4 'source ~/Projects/helioryn-design/helioryn/venv/bin/activate && helioryn stats'
 # or via connect.sh:
 ./connect.sh stats                      # HTTP API mode (fast)
 ./connect.sh --ssh stats                # SSH mode (runs CLI on M4)
@@ -68,8 +68,8 @@ Key config files:
 ## Infrastructure
 
 - **This host (localhost/pop-os)**: client workstation only — code, test, chat. Never deploy services, databases, or containers here.
-- **M4** (`ssh btaylor@m4`): master deployment server — PostgreSQL (5432), Redis (6379), helioryn serve, web GUI, discovery daemon, all services.
-- **Homeserver** (`ssh://btaylor@homeserver`): Git server only — never deploy code here. Remote: `ssh://btaylor@homeserver:/opt/git-repos/helioryn-design.git`
+- **M4** (`ssh localuser@m4`): master deployment server — PostgreSQL (5432), Redis (6379), helioryn serve, web GUI, discovery daemon, all services.
+- **Homeserver** (`ssh://localuser@homeserver`): Git server only — never deploy code here. Remote: `ssh://localuser@homeserver:/opt/git-repos/helioryn-design.git`
 - **Deployment fallback**: scp directly to M4 if homeserver unreachable.
 - **Redis**: launchd-managed on M4 (`com.helioryn.redis`). Optional — degrades gracefully.
 - **No cloud/paid APIs** — all models run locally (sentence-transformers, Ollama).

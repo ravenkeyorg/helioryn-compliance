@@ -3,7 +3,7 @@ import asyncio, sys
 from helioryn.store import EventStore
 
 async def c():
-    s = EventStore("postgresql:///helioryn_dev?host=/tmp")
+    s = EventStore("postgresql:///localhost_dev?host=/tmp")
     await s.connect()
     async with s._pool.acquire() as conn:
         ss = await conn.fetchval("SELECT COUNT(*) FROM source_snapshot")

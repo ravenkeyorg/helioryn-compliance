@@ -31,6 +31,10 @@ easy-hard-demo-questions.md
 .DS_Store
 Thumbs.db
 
+# Environment
+.env
+.env.*
+
 # IDE
 .vscode/
 .idea/

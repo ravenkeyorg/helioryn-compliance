@@ -3,7 +3,7 @@
 # Data sources: US government APIs only (no web search)
 
 [database]
-url = "postgresql:///helioryn_dev?host=/tmp"
+url = "postgresql:///localhost_dev?host=/tmp"
 
 [cache]
 url = "redis://localhost:6379/0"

@@ -74,9 +74,9 @@ OIG_DIR = Path(__file__).resolve().parent.parent / "demo-data" / "oig-reports"
 
 
 async def _get_conn() -> asyncpg.Connection:
-    user = os.environ.get("USER") or os.environ.get("USERNAME") or "btaylor"
+    user = os.environ.get("USER") or os.environ.get("USERNAME") or "localuser"
     return await asyncpg.connect(
-        user=user, host="/tmp", database="helioryn_dev",
+        user=user, host="/tmp", database="localhost_dev",
     )
 
 

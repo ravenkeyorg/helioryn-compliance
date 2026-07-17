@@ -24,7 +24,7 @@ brew install python@3.12 postgresql@16 orbstack
 brew services start postgresql@16
 
 # 3. Create the database
-createdb helioryn_dev
+createdb localhost_dev
 
 # 4. Set up Python environment
 cd helioryn
@@ -33,8 +33,8 @@ source venv/bin/activate
 pip install -e .
 
 # 5. Run database migrations
-psql helioryn_dev < migrations/001_initial.sql
-psql helioryn_dev < migrations/002_claims.sql
+psql localhost_dev < migrations/001_initial.sql
+psql localhost_dev < migrations/002_claims.sql
 
 # 6. Verify it works
 helioryn stats
@@ -69,10 +69,10 @@ A Mac-optimized template is provided at `helioryn.toml.mac`.
 ```toml
 [database]
 # macOS (Homebrew PostgreSQL listens on /tmp socket):
-url = "postgresql://nomadic@/helioryn_dev?host=/tmp"
+url = "postgresql://localuser@/localhost_dev?host=/tmp"
 
 # Linux (PostgreSQL listens on /var/run/postgresql):
-# url = "postgresql://nomadic@/helioryn_dev?host=/var/run/postgresql"
+# url = "postgresql://localuser@/localhost_dev?host=/var/run/postgresql"
 
 [ingest]
 fetcher_timeout = 30.0
@@ -95,7 +95,7 @@ items = [
 The database URL can also be set via `HELIORYN_DATABASE_URL`:
 
 ```bash
-export HELIORYN_DATABASE_URL="postgresql://nomadic@/helioryn_dev?host=/tmp"
+export HELIORYN_DATABASE_URL="postgresql://localuser@/localhost_dev?host=/tmp"
 ```
 
 ---
@@ -272,19 +272,19 @@ brew link --overwrite postgresql@16
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 ```
 
-### `role "nomadic" does not exist`
+### `role "localuser" does not exist`
 
 ```bash
 # If your macOS username doesn't match the PostgreSQL role:
 /opt/homebrew/opt/postgresql@16/bin/createuser -s $(whoami)
-createdb helioryn_dev
+createdb localhost_dev
 ```
 
 ### Database connection failed
 
 ```bash
 # Test the connection directly:
-psql helioryn_dev
+psql localhost_dev
 
 # If that works but the CLI doesn't, check the socket path:
 ls /tmp/.s.PGSQL.5432

@@ -15,7 +15,7 @@ Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 | Service | Status | Details |
 |---------|--------|---------|
 | Server | `uvicorn helioryn.server:app` on port 8765 | FastAPI + Jinja2 |
-| PostgreSQL | Local at `/tmp` socket | `helioryn_dev` DB |
+| PostgreSQL | Local at `/tmp` socket | `localhost_dev` DB |
 | Ollama | Port 11434 | `qwen2.5:7b` model loaded |
 | Daemon | Background processes | pipeline, score, analyze, interpret, api-ingest, discover |
 

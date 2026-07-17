@@ -75,7 +75,7 @@ async def _get_store(config: AppConfig) -> EventStore:
         typer.echo("", err=True)
         typer.echo("  Helioryn CLI must run on the server where PostgreSQL is installed.", err=True)
         typer.echo("  SSH to M4 and run commands there:", err=True)
-        typer.echo(f"    ssh btaylor@m4 'source ~/helioryn/venv/bin/activate && helioryn <command>'", err=True)
+        typer.echo(f"    ssh localuser@m4 'source ~/helioryn/venv/bin/activate && helioryn <command>'", err=True)
         typer.echo("", err=True)
         typer.echo("  Or use connect.sh:", err=True)
         typer.echo("    ./connect.sh daemon status    # check daemon status", err=True)
