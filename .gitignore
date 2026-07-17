@@ -21,6 +21,7 @@ demo-data/
 web-complete-redesign-test1.md
 chatgpt-prompt.md
 easy-hard-demo-questions.md
+*.plist
 
 # Testing
 .pytest_cache/
