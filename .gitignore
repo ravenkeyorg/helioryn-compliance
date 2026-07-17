@@ -19,6 +19,8 @@ demo-data/
 
 # Temp/test files
 web-complete-redesign-test1.md
+chatgpt-prompt.md
+easy-hard-demo-questions.md
 
 # Testing
 .pytest_cache/
