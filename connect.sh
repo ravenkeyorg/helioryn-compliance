@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 #!/bin/bash
 # connect.sh — Connect to the Helioryn server (M4 MacBook Air)
 #

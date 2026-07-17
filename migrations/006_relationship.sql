@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 006_relationship: Layer 3b/3c claim relationship graph
 -- Same-claim detection (embedding similarity) + contradiction detection
 -- Requires pgvector extension

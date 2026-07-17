@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 008_ledger: Immutable hash chain ledger for cryptographic provenance
 -- Every source fetch, claim extraction, confidence factor, narrative assignment,
 -- and staging review is recorded in an append-only chain with SHA256 hashes.

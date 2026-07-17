@@ -1,26 +1,75 @@
-<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
-{% extends "base.html" %}
-{% block title %}Helioryn — Sign Up{% endblock %}
-{% block content %}
+<!-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helioryn — Create Account</title>
+<link rel="stylesheet" href="/static/css/archive.css">
+<link rel="stylesheet" href="/static/css/auth.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>H</text></svg>">
+</head>
+<body>
 <div class="auth-page">
-  <div class="auth-card">
-    <h1>Create Account</h1>
-    <p class="auth-subtitle">Sign up to save chats and organize by project.</p>
-    <form method="post" action="/signup" class="auth-form">
-      <label>
-        Username
-        <input type="text" name="username" required minlength="2" placeholder="your username" class="auth-input">
-      </label>
-      <label>
-        Password
-        <input type="password" name="password" required minlength="4" placeholder="at least 4 characters" class="auth-input">
-      </label>
+  <aside class="auth-sidebar">
+    <div class="auth-sidebar-content">
+      <div class="auth-logo">Helioryn</div>
+      <p class="auth-tagline">Evidence-based intelligence for grant compliance and audit operations.</p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span>Organize chats into projects</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span>Secure, private workspace</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <span>Track evidence evolution over time</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-mobile">Helioryn</div>
+        <p class="auth-tagline-mobile">Evidence-based intelligence platform</p>
+        <h1 class="auth-title">Create your account</h1>
+        <p class="auth-subtitle">Start exploring compliance intelligence</p>
+      </div>
+
       {% if error %}
-      <p class="auth-error">{{ error }}</p>
+      <div class="auth-error">{{ error }}</div>
       {% endif %}
-      <button type="submit" class="btn btn-primary w-full">Create Account</button>
-    </form>
-    <p class="auth-footer">Already have an account? <a href="/login">Log in</a></p>
-  </div>
+
+      <form method="post" action="/signup" class="auth-form">
+        <div class="auth-field">
+          <label class="auth-label" for="username">Username</label>
+          <input type="text" id="username" name="username" class="auth-input" placeholder="Choose a username" required minlength="2">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="password">Password</label>
+          <input type="password" id="password" name="password" class="auth-input" placeholder="At least 4 characters" required minlength="4">
+        </div>
+        <button type="submit" class="auth-submit">Create Account</button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <p class="auth-footer">
+        Already have an account? <a href="/login">Sign in</a>
+      </p>
+    </div>
+  </main>
 </div>
-{% endblock %}
+</body>
+</html>

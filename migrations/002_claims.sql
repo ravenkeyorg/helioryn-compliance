@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 002_claims: Layer 2 claim extraction
 -- Each claim is an atomic assertion extracted from a source
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 from __future__ import annotations
 
 import hashlib
@@ -101,6 +101,22 @@ async def require_admin(request: Request) -> dict | None:
     return user
 
 
+async def _warm_ollama():
+    try:
+        import httpx
+        from helioryn.config import AppConfig
+        cfg = AppConfig.load(_CONFIG_PATH)
+        async with httpx.AsyncClient(timeout=300) as client:
+            await client.post(f"{cfg.ollama.base_url}/api/generate", json={
+                "model": cfg.llm.model,
+                "prompt": "hello",
+                "keep_alive": "10m",
+                "stream": False,
+            })
+    except Exception:
+        pass
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _store
@@ -116,6 +132,8 @@ async def lifespan(app: FastAPI):
         await _store.bootstrap_admin(config.auth.admin_password or "admin")
     except Exception:
         pass
+    import asyncio
+    asyncio.create_task(_warm_ollama())
     yield
     await _store.close()
     app.state.store = None
@@ -191,6 +209,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ── Exception Handlers ──────────────────────────────────────────
+
+@app.exception_handler(404)
+async def not_found(request: Request, exc):
+    return _session_templates.TemplateResponse(
+        request, "error.html", {"message": "Page not found"},
+        status_code=404,
+    )
+
+@app.exception_handler(500)
+async def server_error(request: Request, exc):
+    return _session_templates.TemplateResponse(
+        request, "error.html", {"message": "Internal server error"},
+        status_code=500,
+    )
 
 
 @app.get("/api/health")

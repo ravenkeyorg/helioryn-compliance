@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 001_initial: Layer 1 event-sourced schema
 -- Event table: append-only log of every source ingestion
 -- Snapshot table: materialized latest state per source_id

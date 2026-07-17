@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 ALTER TABLE claim ADD COLUMN IF NOT EXISTS wikidata_qid TEXT DEFAULT '';
 ALTER TABLE claim ADD COLUMN IF NOT EXISTS factcheck_count INT DEFAULT 0;
 ALTER TABLE claim ADD COLUMN IF NOT EXISTS factcheck_agreement REAL DEFAULT 0.0;

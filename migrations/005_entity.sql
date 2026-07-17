@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 005_entity: Layer 3a entity extraction table
 -- Stores entities extracted from claims, linked via claim_entity join table.
 

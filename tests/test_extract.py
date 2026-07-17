@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 from uuid import UUID
 
 from helioryn.extract import extract_claims, extract_entities, split_sentences

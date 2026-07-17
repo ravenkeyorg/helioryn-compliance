@@ -204,6 +204,47 @@ function sidebarApp() {
 
 // ── Main Chat App ───────────────────────────────────────────
 
+// ── Preset Questions ─────────────────────────────────────────
+
+const PRESET_QUESTIONS = [
+  {
+    label: 'Allowable VOCA Costs',
+    question: 'What are the allowable costs under VOCA grants according to 28 CFR Part 94?',
+    tooltip: '28 CFR § 94.119 — Allowable direct service costs',
+    icon: '&#9744;',
+  },
+  {
+    label: 'Subrecipient Monitoring',
+    question: 'What are the requirements for monitoring subrecipients under 2 CFR § 200.332?',
+    tooltip: '2 CFR § 200.332 — Subrecipient monitoring requirements',
+    icon: '&#9776;',
+  },
+  {
+    label: 'Audit Findings',
+    question: 'What should I do if my grant audit has findings? How are they resolved?',
+    tooltip: 'Audit resolution under 2 CFR § 200.516',
+    icon: '&#9744;',
+  },
+  {
+    label: 'Match Requirements',
+    question: 'What are the match requirements for VOCA victim assistance grants?',
+    tooltip: '28 CFR § 94.105 and VOCA statutory match',
+    icon: '&#9733;',
+  },
+  {
+    label: 'Closeout Process',
+    question: 'What costs are unallowable under VOCA grants during closeout?',
+    tooltip: '28 CFR § 94.122 — Expressly unallowable costs',
+    icon: '&#9888;',
+  },
+  {
+    label: 'Recent OIG Audits',
+    question: 'What recent OIG audit findings relate to subrecipient monitoring for VOCA grants?',
+    tooltip: 'DOJ OIG grant audit reports (2024-2026)',
+    icon: '&#9998;',
+  },
+];
+
 function chatApp() {
   return {
     messages: [],
@@ -214,6 +255,7 @@ function chatApp() {
     auth: { authenticated: false },
     currentSessionId: null,
     sidebarOpen: false,
+    presetQuestions: PRESET_QUESTIONS,
 
     async init() {
       window.chatAppInstance = this;
@@ -446,6 +488,11 @@ function chatApp() {
           messages: this.messages.slice(-50),
         }));
       } catch(e) {}
+    },
+
+    sendPreset(question) {
+      this.input = question;
+      this.sendMessage();
     },
 
     clearChat() {

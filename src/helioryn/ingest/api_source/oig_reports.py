@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 """DOJ OIG grant audit report ingestor.
 
 Periodically downloads and imports OIG audit reports relevant to OVC/VOCA grants.

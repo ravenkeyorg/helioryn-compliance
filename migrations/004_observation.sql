@@ -1,4 +1,4 @@
--- Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 -- 004_observation: Layer 4 claim-level observation tracking
 -- Records every time a claim is observed from a source.
 -- Append-only: never mutated, never deleted.

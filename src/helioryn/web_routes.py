@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 from __future__ import annotations
 
 from pathlib import Path
@@ -13,9 +13,13 @@ _TEMPLATE_DIR = Path(__file__).parent / "templates"
 def register_web_routes(app: FastAPI):
     _templates = Jinja2Templates(directory=str(_TEMPLATE_DIR))
 
-    @app.get("/")
-    async def root():
-        return RedirectResponse(url="/chat")
+    @app.get("/", response_class=HTMLResponse)
+    async def root(request: Request):
+        from helioryn.server import _check_session as _check_sesh
+        user = _check_sesh(request)
+        if user:
+            return RedirectResponse(url="/chat")
+        return _templates.TemplateResponse(request, "landing.html", {})
 
     @app.get("/folio")
     async def folio_redirect():
@@ -25,9 +29,11 @@ def register_web_routes(app: FastAPI):
     async def chat_page(request: Request):
         from helioryn.server import _check_session as _check_sesh
         user = _check_sesh(request)
+        if not user:
+            return RedirectResponse(url="/login?next=/chat")
         return _templates.TemplateResponse(request, "chat.html", {
-            "is_authenticated": user is not None,
-            "is_admin": user is not None and user.get("role") == "admin",
+            "is_authenticated": True,
+            "is_admin": user.get("role") == "admin",
             "user": user,
             "current_page": "chat",
             "chat_mode": request.query_params.get("mode", "public"),

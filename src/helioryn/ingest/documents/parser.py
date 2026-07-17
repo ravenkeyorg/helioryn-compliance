@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 """Extract text from PDF, DOCX, XLSX, and email files."""
 
 from __future__ import annotations

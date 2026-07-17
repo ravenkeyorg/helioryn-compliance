@@ -1,33 +1,76 @@
-<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+<!-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Helioryn Compliance — Login</title>
+<title>Helioryn — Sign In</title>
 <link rel="stylesheet" href="/static/css/archive.css">
+<link rel="stylesheet" href="/static/css/auth.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>H</text></svg>">
 </head>
-<body class="login-body">
-<main class="login-container">
-  <div class="login-card">
-    <h1 class="login-title">Helioryn</h1>
-    <p class="login-subtitle">Intelligence Platform</p>
-    {% if error %}
-    <div class="login-error">{{ error }}</div>
-    {% endif %}
-    <form method="POST" action="/login" class="login-form">
-      <input type="hidden" name="next" value="{{ next or '/chat' }}">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter username" autofocus required>
+<body>
+<div class="auth-page">
+  <aside class="auth-sidebar">
+    <div class="auth-sidebar-content">
+      <div class="auth-logo">Helioryn</div>
+      <p class="auth-tagline">Evidence-based intelligence for grant compliance and audit operations.</p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <span>Trace every claim to its source</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <span>Automated compliance verification</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span>AI-powered document analysis</span>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter password" required>
+    </div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-mobile">Helioryn</div>
+        <p class="auth-tagline-mobile">Evidence-based intelligence platform</p>
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Sign in to continue to your workspace</p>
       </div>
-      <button type="submit" class="btn btn-primary login-btn">Sign In</button>
-    </form>
-  </div>
-</main>
+
+      {% if error %}
+      <div class="auth-error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" action="/login" class="auth-form">
+        <input type="hidden" name="next" value="{{ next or '/chat' }}">
+        <div class="auth-field">
+          <label class="auth-label" for="username">Username</label>
+          <input type="text" id="username" name="username" class="auth-input" placeholder="Enter your username" autofocus required>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="password">Password</label>
+          <input type="password" id="password" name="password" class="auth-input" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="auth-submit">Sign In</button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <p class="auth-footer">
+        Don't have an account? <a href="/signup">Create one</a>
+      </p>
+    </div>
+  </main>
+</div>
 </body>
 </html>

@@ -1,116 +1,54 @@
-Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 
 # CONTROL.md — Session State
 
-## Current Status (Jun 30, 2026 — Session 2)
+## Current Status (Jul 04, 2026)
 
-**Project direction:** Grant oversight intelligence tool for OVC, Navaa, DOJ grant managers (NOT grantees). Standalone project (not Ravenkey MSP). Phase 1 = read-only expert with deep citations. Phase 2 = document editing tools.
+**Project direction:** Grant oversight intelligence tool for OVC, VOCA, DOJ grant managers. Running locally for demo readiness. No GCP/cloud dependencies.
 
-**Model:** `qwen2.5:14b` (Q4_K_M, ~8.5GB) on Ollama. Previous models (`llama3.2:3b`, `qwen2.5:7b`) removed.
+**Model:** `qwen2.5:7b` (Q4_K_M, ~4.5GB) on Ollama (localhost:11434). Switched from 14b for performance on M4 MacBook Air.
 
-**Branch:** Working directory (uncommitted)
+**Branch:** `main` at `33d2c5a`. GCP deploy branch deleted.
 
-## Phase A Data Seeded (today)
+## What's Running
 
-| Source | Items | Method |
-|--------|-------|--------|
-| DOJ OIG Reports | 12 (5 original + 7 new) | PDF download via `scripts/seed_gov_data.py` |
-| 2 CFR Part 200 (Uniform Guidance) | 1 full part | Cornell LII HTML via `seed_gov_data.py` |
-| 28 CFR Part 94 (VOCA Regs) | 22 sections | Cornell LII HTML via `seed_gov_data.py` |
-| DOJ Grants Financial Guide | 6 pages | OJP.gov HTML via `seed_gov_data.py` |
-| FAC Findings | 1 (rate-limited, DEMO_KEY) | FAC.gov API |
+| Service | Status | Details |
+|---------|--------|---------|
+| Server | `uvicorn helioryn.server:app` on port 8765 | FastAPI + Jinja2 |
+| PostgreSQL | Local at `/tmp` socket | `helioryn_dev` DB |
+| Ollama | Port 11434 | `qwen2.5:7b` model loaded |
+| Daemon | Background processes | pipeline, score, analyze, interpret, api-ingest, discover |
 
-**DB:** 159 total sources, 42 gov_seed (was 122 / 35 before)
+## DB Stats (from previous seeding)
 
-## What Was Built This Session
+- 92,997 sources
+- 659 claims
+- 658 embeddings
+- 42 gov_seed sources (CFR, Financial Guide, OIG audits, OVC guidance)
 
-1. **`VISION.md`** — Project vision document: grant oversight intelligence tool, target users, training strategy, model roadmap, design principles
-2. **`DEFERRED_DECISIONS.md`** — Deferred architecture decisions from `chatgpt-prompt.md` (Qdrant, BGE-M3, fine-tuning, state manuals, chunk strategy)
-3. **`llm.py`** — Provider abstraction: `OllamaProvider` + `OpenCodeGoProvider` + `create_llm()` factory
-4. **`config.py`** — Updated: `LLMConfig`, `OpenCodeConfig`, TOML parsing for `[llm]` and `[opencode]`
-5. **`helioryn.toml`** — Updated: `[llm]` section with provider + model, `[opencode]` section
-6. **`rag.py`** — Rewritten: uses LLM provider, OVC/VOCA system prompt with regulation vs guidance distinction, context cap 15 (was 10), abstention min_avg_score 0.40
-7. **`store.py`** — Fixed keyword search: `_extract_search_terms()` extracts proper nouns + keywords instead of ILIKE on full question
-8. **`verify_rag.py`** — Thresholds: verified ≥ 0.65, plausible ≥ 0.40
-9. **`seed_gov_data.py`** — Extended with CFR + Financial Guide seed functions, more OIG report URLs
-10. **Model upgrade**: `ollama pull qwen2.5:14b`, removed `llama3.2:3b` + `qwen2.5:7b`
+## Key Changes This Session
 
-## Infrastructure
-
-- **Local server**: `uvicorn helioryn.server:app` on port 8765 (start with `source .venv/bin/activate && uvicorn helioryn.server:app --host 0.0.0.0 --port 8765`)
-- **PostgreSQL**: Local at `/tmp`, database `helioryn_dev`
-- **Ollama**: Port 11434 with `qwen2.5:14b` only
-- **Embedding model**: `all-MiniLM-L6-v2` (384-dim, loaded on first use)
-
-## How to Start
-
-```bash
-cd ~/Projects/helioryn-compliance
-source .venv/bin/activate
-uvicorn helioryn.server:app --host 0.0.0.0 --port 8765
-```
-
-## Key Files Changed This Session
-
-| File | Change |
-|---|---|
-| `VISION.md` | **NEW** — Project vision document |
-| `DEFERRED_DECISIONS.md` | **NEW** — Deferred architecture decisions |
-| `src/helioryn/llm.py` | **NEW** — Provider abstraction (Ollama + OpenCode Go) |
-| `src/helioryn/config.py` | Added `LLMConfig`, `OpenCodeConfig`; model default `qwen2.5:14b` |
-| `src/helioryn/rag.py` | Use LLM provider; regulation vs guidance in system prompt |
-| `src/helioryn/store.py` | `_extract_search_terms()` for keyword search fix |
-| `src/helioryn/server.py` | Pass `config=config` to `answer_question()` |
-| `src/helioryn/verify_rag.py` | Lowered thresholds (verified 0.65, plausible 0.40) |
-| `scripts/seed_gov_data.py` | Added CFR + Financial Guide seed functions; more OIG URLs |
-| `helioryn.toml` | Model `qwen2.5:7b` → `qwen2.5:14b`; added `[llm]` + `[opencode]` sections |
+1. **Landing page** (`/`): Branded hero with feature grid, animated glow, CTA buttons. Redirects to `/chat` if logged in.
+2. **Auth pages redesigned**: Split-screen layout, gradient buttons, feature sidebar, unified `auth.css`.
+3. **Error page**: Standalone polished error template (no longer extends base.html).
+4. **Chat UI improvements**:
+   - Preset question chips (6 domain-specific questions) in the empty state
+   - Typing indicator with avatar + bouncing dots
+   - Message fade-in animations
+   - Removed old `typing-dot` CSS, replaced with `chat-typing` + `typing-bubbles`
+5. **Unauthenticated redirect**: `/chat` now redirects to `/login?next=/chat` instead of rendering an empty page.
+6. **Ollama warm-up**: `_warm_ollama()` sends a background generate request at startup (`keep_alive: 10m`) to avoid cold-start latency.
+7. **Exception handlers**: 404 and 500 handlers now render the new `error.html`.
+8. **CI workflow runs**: All 5 runs deleted from GitHub, no workflow files in repo.
+9. **GCP deletion**: All cloud resources deleted (Cloud Run, Artifact Registry, Cloud SQL, Secrets). No GCP references remain.
 
 ## Known Issues
-- FAC API DEMO_KEY rate-limited — need registered api.data.gov key for production seeding
-- OpenCode Go API (`api.opencode.ai`) returns "Not Found" — provider is wired but non-functional
-- System prompt's regulation vs guidance distinction added but not validated against real CFR queries yet
-- Verification thresholds lowered (0.65/0.40) — may produce false positives with larger models
+- Chat messages from API don't persist `messages` array in `PUT /api/sessions/{id}` — messages are stored but initial GET returns empty `[]`
+- Cold-start on first chat request is ~63s even with warm-up (model loads fully on first generate)
+- Only one admin user (`admin`/`admin`)
+- FAC API DEMO_KEY rate-limited for bulk seeding
 
-## Next Steps
-- Register api.data.gov key for FAC API
-- Validate 28 CFR 94 answers (question: "What are VOCA allowable costs?")
-- Add more OIG reports as they publish (current: 13 OIG sources)
-- Build continuous ingestion via API source pattern
-- Add document editing tools (Phase 2)
-
-## Session 2 Changes (Jun 30, 2026)
-
-### Data Quality Fix (OIG Reports)
-**Root cause:** 4 reports had wrong PDF URLs — titles described OVC/VOCA reports but PDFs were about unrelated topics (BOP FISMA, OCDETF, USAx Axon, Misconduct). 2 more URLs returned 404. 3 titles mislabeled content.
-
-**Fixed:**
-- **Removed 6 bad entries** from `OIG_URLS` in `seed_gov_data.py`:
-  - `25-033.pdf` (USAx Axon → was labeled "Performance Progress Report")
-  - `25-077.pdf` (Misconduct → was labeled "Compensation Program Grants")
-  - `26-032.pdf` (BOP FISMA → was labeled "Compensation Program Audit")
-  - `26-018.pdf` (OCDETF → was labeled "Performance Measurement Audit")
-  - `25-102.pdf` (404 Not Found)
-  - `25-127.pdf` (404 Not Found)
-- **Fixed 3 misleading titles** in DB + seed script:
-  - `24-055.pdf`: "DOJ Grants Financial Guide Compliance" → "Arizona DPS — OJP Victim Assistance Grant Audit"
-  - `22-047.pdf`: "OVC Grantee Monitoring" → "Red Wind Consulting — OVW Cooperative Agreement Audit"
-  - `21-069.pdf`: "VOCA Grant Administrative Costs" → "JustGrants Transition Impact Issue Alert"
-- **Added 3 real OVC/VOCA OIG reports**:
-  - `26-038.pdf`: "Puerto Rico DOJ — OVC Victim Compensation Grant Audit" (victim comp grantee audit)
-  - `26-047.pdf`: "Virginia DSS — VOCA Subaward Administration Audit" (subrecipient monitoring, time/effort)
-  - `26-048.pdf`: "Nebraska — OJP Victim Assistance Subrecipient Monitoring Risk Assessment"
-- **Total:** 16 → 13 OIG sources (all correctly title-matched)
-
-### Frontend Crash Fix (chat.js/chat.html)
-**Root cause:** If Alpine.js crashed during `sendMessage()`, the form's `@submit.prevent` stopped working. Next button click or Enter key caused native form submission → page reload → messages lost, but loading stayed true from the crashed promise.
-
-**Fixed:**
-- Changed `<form>` to `<div>` in `chat.html` — no native submission possible
-- Changed submit button from `type="submit"` to `type="button"` with explicit `@click="sendMessage()"`
-- Added `try/finally` in `sendMessage()` to always reset `this.loading = false`
-- Added `Array.isArray(this.messages)` guards before `push()` in catch blocks
-- Added 5-minute loading timeout (`_loadingTimer`) as safety net
-
-## License & Copyright
-
-All code is **Copyright (c) 2026 Ravenkey LLC. All rights reserved.** — proprietary, All Rights Reserved.
+## Next Steps (Suggested)
+- Fix session message persistence (messages not saving/loading properly)
+- Add more OIG audit reports as they publish
+- Investigate why `PUT /api/sessions/{id}` doesn't persist messages array

@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2026 Ravenkey LLC. All rights reserved. -->
+<!-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved. -->
 {% extends "base.html" %}
 {% block title %}Helioryn — Chat{% endblock %}
 {% block head_extra %}
@@ -110,15 +110,33 @@
     </button>
 
     <div id="chat-messages" class="chat-messages" x-ref="messages">
-      <div class="chat-welcome">
+      {# ── Empty state with preset questions ── #}
+      <div x-show="messages.length === 0 && !loading" class="chat-welcome">
+        <div class="chat-welcome-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
         <h2>Helioryn Evidence Assistant</h2>
         <p class="chat-welcome-hint">
           Ask questions about grant compliance, training requirements, policies, or audit evidence.
-          <br><span class="text-xs text-text-muted">Toggle between <strong>Public Intelligence</strong> (government sources) and <strong>Org Compliance</strong> (your documents) using the mode switch above.</span>
+        </p>
+        <div class="preset-questions">
+          <template x-for="(q, idx) in presetQuestions" :key="idx">
+            <button class="preset-chip" @click="sendPreset(q.question)" :title="q.tooltip">
+              <span class="preset-chip-icon" x-html="q.icon"></span>
+              <span class="preset-chip-text" x-text="q.label"></span>
+            </button>
+          </template>
+        </div>
+        <p class="chat-welcome-footer">
+          Toggle between <strong>Public</strong> (government sources) and <strong>Org</strong> (your documents) using the mode switch above.
         </p>
       </div>
+
+      {# ── Messages ── #}
       <template x-for="(msg, i) in messages" :key="i">
-        <div>
+        <div class="chat-msg-wrapper" :style="'animation-delay: ' + (i * 0.05) + 's'">
           <div class="chat-msg" :class="'chat-msg-' + msg.role">
             <div class="chat-msg-content" x-html="msg.content"></div>
             <template x-if="msg.role === 'assistant' && msg.sources && msg.sources.length > 0">
@@ -147,11 +165,20 @@
           </div>
         </div>
       </template>
+
+      {# ── Typing indicator ── #}
       <div x-show="loading" class="chat-typing">
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-        <span x-show="govSearching" class="chat-typing-text">Searching government databases...</span>
+        <div class="typing-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="typing-bubbles">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+        <span class="typing-text" x-text="govSearching ? 'Searching government databases...' : 'Analyzing sources...'"></span>
       </div>
     </div>
 

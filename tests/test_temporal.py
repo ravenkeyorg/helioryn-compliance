@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 """Tests for temporal reference extraction."""
 
 from helioryn.extract.temporal import extract_temporal_references

@@ -1,4 +1,4 @@
-# Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+# Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 """Redis cache and pub/sub for daemon coordination and web server caching."""
 
 from __future__ import annotations

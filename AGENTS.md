@@ -1,4 +1,4 @@
-Copyright (c) 2026 Ravenkey LLC. All rights reserved.
+Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.
 
 # AGENTS.md
 
@@ -78,7 +78,7 @@ Key config files:
 
 - Create a new branch before making changes (e.g. `fix/config-parsing`, `feat/layer3-graph`).
 - Commit and push by default after every change. Commits must be concise and descriptive.
-- Every new source file includes: `Copyright (c) 2026 Ravenkey LLC. All rights reserved.`
+- Every new source file includes: `Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved.`
 - **Never push to GitHub.** Homeserver is the only remote.
 - Pause and confirm before merging into main.
 

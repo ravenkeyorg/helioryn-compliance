@@ -1,0 +1,317 @@
+<!-- Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helioryn — Evidence Intelligence Platform</title>
+<link rel="stylesheet" href="/static/css/archive.css">
+<link rel="stylesheet" href="/static/css/auth.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>H</text></svg>">
+<style>
+.landing-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(ellipse at 40% 50%, rgba(79, 140, 255, 0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 60% 50%, rgba(110, 92, 255, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.landing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(79, 140, 255, 0.1);
+  border: 1px solid rgba(79, 140, 255, 0.2);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  margin-bottom: 2rem;
+}
+
+.landing-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.landing-hero h1 .gold {
+  color: var(--color-gold);
+}
+
+.landing-hero h1 .accent {
+  color: var(--color-accent);
+}
+
+.landing-hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.landing-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.landing-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: white;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-violet) 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.landing-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(79, 140, 255, 0.35);
+  text-decoration: none;
+  color: white;
+}
+
+.landing-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.landing-btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.landing-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 4rem auto 0;
+  position: relative;
+}
+
+.landing-feature {
+  padding: 1.5rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: left;
+}
+
+.landing-feature-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(79, 140, 255, 0.1);
+  border: 1px solid rgba(79, 140, 255, 0.2);
+  border-radius: 10px;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.landing-feature h3 {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.landing-feature p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.landing-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  z-index: 100;
+}
+
+.landing-logo {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.landing-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.landing-nav-link {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+
+.landing-nav-link:hover {
+  color: var(--color-text-primary);
+  background: var(--color-card);
+  text-decoration: none;
+}
+
+.landing-nav-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-violet) 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.landing-nav-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .landing-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .landing-btn-primary,
+  .landing-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  .landing-nav {
+    padding: 0.75rem 1rem;
+  }
+  .landing-nav-link {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+<nav class="landing-nav">
+  <span class="landing-logo">Helioryn</span>
+  <div class="landing-nav-actions">
+    <a href="/signup" class="landing-nav-link">Create Account</a>
+    <a href="/login" class="landing-nav-btn">Sign In</a>
+  </div>
+</nav>
+
+<div class="landing-hero">
+  <div class="landing-badge">Evidence Intelligence Platform</div>
+  <h1>
+    From <span class="gold">evidence</span> to<br>
+    <span class="accent">intelligence</span>, not summaries
+  </h1>
+  <p>
+    Helioryn traces every claim to its source, surfaces contradictions, and tracks
+    how evidence evolves over time. Built for grant compliance and audit operations
+    that demand provenance, not hallucinations.
+  </p>
+  <div class="landing-actions">
+    <a href="/login" class="landing-btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+        <polyline points="10 17 15 12 10 7"></polyline>
+        <line x1="15" y1="12" x2="3" y2="12"></line>
+      </svg>
+      Sign In
+    </a>
+    <a href="/signup" class="landing-btn-secondary">Create Account</a>
+  </div>
+
+  <div class="landing-features">
+    <div class="landing-feature">
+      <div class="landing-feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <h3>Provenance-first</h3>
+      <p>Every response traces back to specific sources, sections, and effective dates — never hallucinated.</p>
+    </div>
+    <div class="landing-feature">
+      <div class="landing-feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3>Temporal tracking</h3>
+      <p>Evidence evolves. Helioryn tracks when claims change, when sources update, and what was known when.</p>
+    </div>
+    <div class="landing-feature">
+      <div class="landing-feature-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/>
+        </svg>
+      </div>
+      <h3>Audit-grade citations</h3>
+      <p>Built for DOJ grant compliance. Full citations to 2 CFR 200, 28 CFR 94, DOJ Financial Guide, and OIG audits.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

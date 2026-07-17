@@ -1,4 +1,4 @@
-/* Copyright (c) 2026 Ravenkey LLC. All rights reserved. */
+/* Copyright (c) 2026 Ravenkey LLC dba Helioryn. All rights reserved. */
 /* ═══════════════════════════════════════════════════════════════════════════
    Helioryn Evidence Archive — Design System
    Blue-dominant intelligence platform palette. Gold used as strategic accent only.
@@ -361,48 +361,6 @@ p { margin-bottom: var(--gap-md); }
   box-shadow: 0 0 0 2px var(--color-accent-glow);
 }
 .form-group input::placeholder { color: var(--color-text-muted); }
-
-/* ── Login Page (fallback) ───────────────────────────────────────────────── */
-.login-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
-.login-container {
-  width: 100%;
-  max-width: 380px;
-  padding: var(--gap-lg);
-}
-.login-card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--gap-2xl);
-  text-align: center;
-}
-.login-title {
-  font-size: var(--size-7);
-  color: var(--color-gold);
-  margin-bottom: 0.15rem;
-}
-.login-subtitle {
-  font-size: var(--size-2);
-  color: var(--color-text-muted);
-  margin-bottom: var(--gap-xl);
-}
-.login-error {
-  background: var(--color-trust-low-bg);
-  color: var(--color-trust-low);
-  padding: 0.6rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--size-2);
-  margin-bottom: var(--gap-md);
-}
-.login-btn {
-  width: 100%;
-  margin-top: var(--gap-sm);
-}
 
 /* ── Topic Card Grid ──────────────────────────────────────────────────────── */
 .topic-grid {
